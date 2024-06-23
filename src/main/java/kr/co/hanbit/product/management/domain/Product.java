@@ -3,10 +3,12 @@ package kr.co.hanbit.product.management.domain;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
 
+@Getter
 public class Product {
     @Setter
     private Long id;
