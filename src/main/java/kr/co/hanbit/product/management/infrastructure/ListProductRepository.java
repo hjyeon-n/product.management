@@ -19,4 +19,21 @@ public class ListProductRepository {
         products.add(product);
         return product;
     }
+
+    public Product findById(Long id) {
+        return products.stream()
+                .filter(product -> product.sameId(id))
+                .findFirst()
+                .orElseThrow();
+    }
+
+    public List<Product> findAll() {
+        return products;
+    }
+
+    public List<Product> findByName(String name) {
+        return products.stream()
+                .filter(product -> product.containsName(name))
+                .toList();
+    }
 }
