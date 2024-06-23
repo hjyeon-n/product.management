@@ -1,8 +1,10 @@
 package kr.co.hanbit.product.management.infrastructure;
 
 import kr.co.hanbit.product.management.domain.Product;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -35,15 +37,23 @@ public class DatabaseProductRepository implements ProductRepository {
     }
 
     public Product findById(Long id) {
-        return null;
+        String sql = "select id, name, price, amount from products where id=:id";
+        SqlParameterSource param = new MapSqlParameterSource("id", id);
+        Product product = jdbcTemplate.queryForObject(sql, param, new BeanPropertyRowMapper<>(Product.class));
+        return product;
     }
 
     public List<Product> findAll() {
-        return Collections.emptyList();
+        String sql = "select * from products";
+        List<Product> products = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class));
+        return products;
     }
 
     public List<Product> findByName(String name) {
-        return Collections.emptyList();
+        SqlParameterSource param = new MapSqlParameterSource("name", "%" + name + "%");
+        String sql = "select * from products where name like :name";
+        List<Product> products = jdbcTemplate.query(sql, param, new BeanPropertyRowMapper<>(Product.class));
+        return products;
     }
 
     public Product update(Product product) {

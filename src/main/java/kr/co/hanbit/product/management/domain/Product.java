@@ -9,8 +9,8 @@ import lombok.Setter;
 import java.util.Objects;
 
 @Getter
+@Setter
 public class Product {
-    @Setter
     private Long id;
 
     @Size(min = 1, max = 100)
