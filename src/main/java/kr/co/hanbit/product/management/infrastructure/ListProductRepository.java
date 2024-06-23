@@ -36,4 +36,10 @@ public class ListProductRepository {
                 .filter(product -> product.containsName(name))
                 .toList();
     }
+
+    public Product update(Product product) {
+        Integer indexToModify = products.indexOf(product);
+        products.set(indexToModify, product);
+        return product;
+    }
 }
