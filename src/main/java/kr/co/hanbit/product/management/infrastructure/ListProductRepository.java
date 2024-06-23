@@ -42,4 +42,9 @@ public class ListProductRepository {
         products.set(indexToModify, product);
         return product;
     }
+
+    public void delete(Long id) {
+        Product product = findById(id);
+        products.remove(product);
+    }
 }
