@@ -57,7 +57,10 @@ public class DatabaseProductRepository implements ProductRepository {
     }
 
     public Product update(Product product) {
-        return null;
+        SqlParameterSource param = new BeanPropertySqlParameterSource(product);
+        String sql = "update products set name=:name, price=:price, amount=:amount where id=:id";
+        jdbcTemplate.update(sql, param);
+        return product;
     }
 
     public void delete(Long id) {
