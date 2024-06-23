@@ -64,6 +64,8 @@ public class DatabaseProductRepository implements ProductRepository {
     }
 
     public void delete(Long id) {
-        // do nothing
+        SqlParameterSource param = new MapSqlParameterSource("id", id);
+        String sql = "delete from products where id=:id";
+        jdbcTemplate.update(sql, param);
     }
 }
