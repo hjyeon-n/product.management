@@ -12,16 +12,21 @@ import java.util.List;
 public class SimpleProductService {
 
     private ListProductRepository listProductRepository;
+    private ValidationService validationService;
     private ModelMapper modelMapper;
 
-    public SimpleProductService(ListProductRepository listProductRepository, ModelMapper modelMapper) {
+    public SimpleProductService(ListProductRepository listProductRepository, ValidationService validationService, ModelMapper modelMapper) {
         this.listProductRepository = listProductRepository;
+        this.validationService = validationService;
         this.modelMapper = modelMapper;
     }
 
     public ProductDto add(ProductDto productDto) {
         // ProductDto를 Product로 변환
         Product product = modelMapper.map(productDto, Product.class);
+
+        // 검증
+        validationService.checkValid(product);
 
         // 레포지토리를 호출
         Product savedProduct = listProductRepository.add(product);

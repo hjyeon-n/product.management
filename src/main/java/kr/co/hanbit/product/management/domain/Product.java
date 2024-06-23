@@ -1,5 +1,8 @@
 package kr.co.hanbit.product.management.domain;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.Setter;
 
 import java.util.Objects;
@@ -7,8 +10,16 @@ import java.util.Objects;
 public class Product {
     @Setter
     private Long id;
+
+    @Size(min = 1, max = 100)
     private String name;
+
+    @Min(0)
+    @Max(1000000)
     private Integer price;
+
+    @Min(0)
+    @Max(9999)
     private Integer amount;
 
     public boolean sameId(Long id) {
