@@ -1,8 +1,10 @@
 package kr.co.hanbit.product.management.infrastructure;
 
+import kr.co.hanbit.product.management.domain.EntityNotFoundException;
 import kr.co.hanbit.product.management.domain.Product;
 import kr.co.hanbit.product.management.domain.ProductRepository;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -37,9 +39,16 @@ public class DatabaseProductRepository implements ProductRepository {
     }
 
     public Product findById(Long id) {
-        String sql = "select id, name, price, amount from products where id=:id";
-        SqlParameterSource param = new MapSqlParameterSource("id", id);
-        Product product = jdbcTemplate.queryForObject(sql, param, new BeanPropertyRowMapper<>(Product.class));
+        Product product = null;
+        try {
+            String sql = "select id, name, price, amount from products where id=:id";
+            SqlParameterSource param = new MapSqlParameterSource("id", id);
+            product = jdbcTemplate.queryForObject(sql, param, new BeanPropertyRowMapper<>(Product.class));
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Product를 찾지 못했습니다.");
+        }
+
         return product;
     }
 

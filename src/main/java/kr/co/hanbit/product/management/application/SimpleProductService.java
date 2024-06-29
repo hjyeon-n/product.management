@@ -1,10 +1,9 @@
 package kr.co.hanbit.product.management.application;
 
 import kr.co.hanbit.product.management.domain.Product;
-import kr.co.hanbit.product.management.infrastructure.DatabaseProductRepository;
 import kr.co.hanbit.product.management.domain.ProductRepository;
 import kr.co.hanbit.product.management.presentation.ProductDto;
-import org.modelmapper.ModelMapper;
+//import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,17 +13,15 @@ public class SimpleProductService {
 
     private ProductRepository productRepository;
     private ValidationService validationService;
-    private ModelMapper modelMapper;
 
-    public SimpleProductService(ProductRepository productRepository, ValidationService validationService, ModelMapper modelMapper) {
+    public SimpleProductService(ProductRepository productRepository, ValidationService validationService) {
         this.productRepository = productRepository;
         this.validationService = validationService;
-        this.modelMapper = modelMapper;
     }
 
     public ProductDto add(ProductDto productDto) {
         // ProductDto를 Product로 변환
-        Product product = modelMapper.map(productDto, Product.class);
+        Product product = ProductDto.toEntity(productDto);
 
         // 검증
         validationService.checkValid(product);
@@ -33,14 +30,14 @@ public class SimpleProductService {
         Product savedProduct = productRepository.add(product);
 
         // Product를 ProductDto로 변환하는 코드
-        ProductDto savedProductDto = modelMapper.map(savedProduct, ProductDto.class);
+        ProductDto savedProductDto = ProductDto.toDto(product);
 
         return savedProductDto;
     }
 
     public ProductDto findById(Long id) {
         Product product = productRepository.findById(id);
-        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        ProductDto productDto = ProductDto.toDto(product);
         return productDto;
     }
 
@@ -48,7 +45,7 @@ public class SimpleProductService {
         List<Product> products = productRepository.findAll();
 
         List<ProductDto> productDtos = products.stream()
-                .map(product -> modelMapper.map(product, ProductDto.class))
+                .map(product -> ProductDto.toDto(product))
                 .toList();
 
         return productDtos;
@@ -58,16 +55,16 @@ public class SimpleProductService {
         List<Product> products = productRepository.findByName(name);
 
         List<ProductDto> productDtos = products.stream()
-                .map(product -> modelMapper.map(product, ProductDto.class))
+                .map(product -> ProductDto.toDto(product))
                 .toList();
 
         return productDtos;
     }
 
     public ProductDto update(ProductDto productDto) {
-        Product product = modelMapper.map(productDto, Product.class);
+        Product product = ProductDto.toEntity(productDto);
         Product updateProduct = productRepository.update(product);
-        return modelMapper.map(updateProduct, ProductDto.class);
+        return ProductDto.toDto(updateProduct);
     }
 
     public void delete(Long id) {
