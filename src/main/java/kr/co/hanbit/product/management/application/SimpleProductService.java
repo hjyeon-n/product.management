@@ -16,8 +16,8 @@ public class SimpleProductService {
     private ValidationService validationService;
     private ModelMapper modelMapper;
 
-    public SimpleProductService(DatabaseProductRepository databaseProductRepository, ValidationService validationService, ModelMapper modelMapper) {
-        this.productRepository = databaseProductRepository;
+    public SimpleProductService(ProductRepository productRepository, ValidationService validationService, ModelMapper modelMapper) {
+        this.productRepository = productRepository;
         this.validationService = validationService;
         this.modelMapper = modelMapper;
     }
