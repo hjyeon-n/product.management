@@ -2,6 +2,7 @@ package kr.co.hanbit.product.management.infrastructure;
 
 import kr.co.hanbit.product.management.domain.EntityNotFoundException;
 import kr.co.hanbit.product.management.domain.Product;
+import kr.co.hanbit.product.management.domain.ProductRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
