@@ -1,6 +1,4 @@
-package kr.co.hanbit.product.management.infrastructure;
-
-import kr.co.hanbit.product.management.domain.Product;
+package kr.co.hanbit.product.management.domain;
 
 import java.util.List;
 
