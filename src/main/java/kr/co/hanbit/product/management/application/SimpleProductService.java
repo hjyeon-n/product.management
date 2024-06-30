@@ -30,7 +30,7 @@ public class SimpleProductService {
         Product savedProduct = productRepository.add(product);
 
         // Product를 ProductDto로 변환하는 코드
-        ProductDto savedProductDto = ProductDto.toDto(product);
+        ProductDto savedProductDto = ProductDto.toDto(savedProduct);
 
         return savedProductDto;
     }
